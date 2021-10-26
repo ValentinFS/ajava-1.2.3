@@ -8,20 +8,35 @@ import static org.hamcrest.Matchers.equalTo;
 
 class MobileBankApiTestV1 {
     @Test
-    void shouldReturnDemoAccounts() {
+    void shouldPostToPostman() {
         // Given - When - Then
-        // Предусловия
+
         given()
-                .baseUri("http://localhost:9999/api/v1")
+                .baseUri("https://postman-echo.com")
+                .body("Some request")
+
                 .when()
-                .get("/demo/accounts")
+                .post("/post")
+
                 .then()
                 .statusCode(200)
-//                .header("Content-Type","application/json; charset=UTF-8")
-                .body("[0].currency", equalTo("RUB"))
-                .body("[1].currency", equalTo("RUB"))
-                .body("[2].currency", equalTo("RUB"))
-                .body(matchesJsonSchemaInClasspath("accounts.schema.json"))
+                .body("data", equalTo("Some request"))
+        ;
+    }
+
+    @Test
+    void shouldPostToPostmanRu() {
+        given()
+                .baseUri("https://postman-echo.com")
+                .contentType("text/plain; charset=UTF-8")
+                .body("Привет!")
+
+                .when()
+                .post("/post")
+
+                .then()
+                .statusCode(200)
+                .body("data", equalTo("Привет!"))
         ;
     }
 }
